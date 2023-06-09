@@ -1,2 +1,11 @@
 # memokaso
-This is memo from kaso and fuck u
+
+## Run Application
+```bash
+$ flask --app memo_app run
+```
+
+## Init Database
+```bash
+$ flask db init
+```
