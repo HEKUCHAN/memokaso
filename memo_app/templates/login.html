@@ -6,16 +6,58 @@
   </h1>
 
   <form action="/login/" method="post">
-    <label for="email_form" class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">メール</label>
-    <input type="email" id="email_form" name="email"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 
-                  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      placeholder="name@example.com" required>
+    {{ form.csrf_token }}
 
-    <label for="password_form" class="block mb-2 mt-4 text-sm font-semibold text-gray-900 dark:text-white">パスワード</label>
-    <input type="password" id="password_form" name="password"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-      placeholder="•••••••••" required>
+    {% set form_class = "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+          focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
+          dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %}
+    {% set form_error_class = "bg-gray-50 border border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+      focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 dark:placeholder-gray-400
+      dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" %}
+
+    <label for="email" class="block mb-2 text-sm font-semibold text-gray-900 dark:text-white">メール</label>
+    {% if "email" in form.errors %}
+      {{
+        form.email(
+          placeholder="name@example.com",
+          class_=form_error_class
+        )
+      }}
+    {% else %}
+      {{
+        form.email(
+          placeholder="name@example.com",
+          class_=form_class
+        )
+      }}
+    {% endif %}
+    {% if "email" in form.errors %}
+      {% for error_message in form.errors.email %}
+        <p class="text-red-800 text-xs dark:text-red-400 pt-2">{{ error_message }}</p>
+      {% endfor %}
+    {% endif %}
+
+    <label for="password" class="block mb-2 mt-4 text-sm font-semibold text-gray-900 dark:text-white">パスワード</label>
+    {% if "password" in form.errors %}
+      {{
+        form.password(
+          placeholder="•••••••••",
+          class_=form_error_class
+        )
+      }}
+    {% else %}
+      {{
+        form.password(
+        placeholder="•••••••••",
+          class_=form_class
+        )
+      }}
+    {% endif %}
+    {% if "password" in form.errors %}
+      {% for error_message in form.errors.password %}
+        <p class="text-red-800 text-xs dark:text-red-400 pt-2">{{ error_message }}</p>
+      {% endfor %}
+    {% endif %}
 
     <button type="submit"
       class="w-full text-white text-2xl font-semibold bg-blue-600 py-2 mt-10 hover:bg-blue-900 dark:hover:bg-blue-900">
